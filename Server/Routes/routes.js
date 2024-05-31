@@ -1,6 +1,8 @@
 const express = require("express");
-
+const UserModel = require("../Models/UserModel")
 const UserRouter = express.Router();
+
+
 
 UserRouter.post ('/register', async(req, res)=>{
     const data = {
@@ -8,13 +10,13 @@ UserRouter.post ('/register', async(req, res)=>{
         password: req.body.password
     }
 
-    const checkExistingUser = await User.findOne({email: data.email});
+    const checkExistingUser = await UserModel.findOne({email: data.email});
     if (checkExistingUser) {
         res.send("Email already exits")
     }
     else {
         
-        await User.insertMany(data);
+        await UserModel.insertMany(data);
         res.redirect('/home');
     }
 })
