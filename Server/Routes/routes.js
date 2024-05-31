@@ -17,7 +17,26 @@ UserRouter.post ('/register', async(req, res)=>{
     else {
         
         await UserModel.insertMany(data);
-        res.redirect('/home');
+        res.send('User Added').redirect('/home');
+    }
+})
+
+UserRouter.post ('/login', async(req, res)=>{
+    const  {email, password} = req.body;
+
+    const check = await UserModel.findOne({email: email});
+    if (check) {
+        if (check.password === password) {
+            res.send("User Authenticate");
+        }
+
+        else {
+            res.send("Password doesn't match")
+        }
+    }
+    
+    else {
+        res.send("email cannot found");
     }
 })
 
