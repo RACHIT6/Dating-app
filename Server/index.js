@@ -1,15 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const  UserRouter  = require("./Routes/routes");
+const Auth = require("./Routes/Auth");
 
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/Dating-App');
-
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(cors());
-app.use(UserRouter);
+app.use(Auth);
 
 
 
