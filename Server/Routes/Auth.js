@@ -3,6 +3,9 @@ const UserModel = require("../Models/UserModel");
 const UserRouter = express.Router();
 const { query, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const jwt_SECRET = 'Secret732003'
+
 
 UserRouter.post(
   "/register",
@@ -22,7 +25,16 @@ UserRouter.post(
         email: req.body.email,
         password: HashedPassword,
       });
-      res.send(user);
+
+      const data = {
+        user : {
+          id: user.id,
+        }
+      }
+
+      const AuthData = jwt.sign(data, jwt_SECRET);
+      console.log(AuthData)
+      res.json(AuthData);
     } else res.send({ errors: result.array() });
   }
 );
